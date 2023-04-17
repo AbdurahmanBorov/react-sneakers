@@ -1,8 +1,7 @@
 import React from 'react'
-import Remove from '../img/remove.svg'
-import Arrow from '../img/arrow.svg'
-import one from '../img/sneakers/1.jpg'
-import two from '../img/sneakers/2.jpg'
+import './Cart.scss'
+import Remove from '../../img/remove.svg'
+import Arrow from '../../img/arrow.svg'
 
 export const Cart = () => {
     return (
@@ -11,7 +10,7 @@ export const Cart = () => {
                 <h2 className="cart__title">Корзина<img src={Remove} alt="remove-btn" /></h2>
                 <div className="cart__items">
                     <div className="cart__item">
-                        <img className='cart__item-img' width={70} height={70} src={one} alt="Sneakers" />
+                        <img className='cart__item-img' width={70} height={70} src="./image/sneakers/1.jpg" alt="Sneakers" />
                         <div className="cart__item-text">
                             <span>Мужские Кроссовки Nike Air Max 270</span>
                             <b>12 999 руб.</b>
@@ -19,7 +18,7 @@ export const Cart = () => {
                         <img className='cart__item-btn' src={Remove} alt="remove-btn" />
                     </div>
                     <div className="cart__item">
-                        <img className='cart__item-img' width={70} height={70} src={two} alt="Sneakers" />
+                        <img className='cart__item-img' width={70} height={70} src="./image/sneakers/2.jpg" alt="Sneakers" />
                         <div className="cart__item-text">
                             <span>Мужские Кроссовки Nike Air Max 270</span>
                             <b>8 499 руб.</b>

@@ -1,22 +1,20 @@
 import React from 'react'
-// import one from './img/sneakers/1.jpg'
-import two from '../img/sneakers/2.jpg'
-// import three from './img/sneakers/3.jpg'
-// import four from './img/sneakers/4.jpg'
-import HeartUnliked from '../img/heart-unliked.svg'
+import './Card.scss'
+import HeartUnliked from '../../img/heart-unliked.svg'
 // import HeartLiked from './img/heart-liked.svg'
 
 
-export const Card = () => {
+export const Card = (props) => {
+    console.log(props);
     return (
         <div className="card">
             <img src={HeartUnliked} alt="heart" className='card__heart' />
-            <img width={133} height={112} src={two} alt="sneakers" />
-            <p>Мужские Кроссовки Nike Blazer Mid Suede</p>
+            <img width={133} height={112} src={props.imageUrl} alt="sneakers" />
+            <p>{props.title}</p>
             <div className='card__cont'>
                 <div className='card__text'>
                     <span>Цена:</span>
-                    <b>12 999 руб.</b>
+                    <b>{props.price} руб.</b>
                 </div>
                 <button className='card__button'>
                     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">

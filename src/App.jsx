@@ -1,10 +1,15 @@
-import Card from './components/Card'
-import Header from './components/Header'
-import Cart from './components/Cart'
-import one from './img/sneakers/1.jpg'
-import two from './img/sneakers/2.jpg'
-// import three from './img/sneakers/3.jpg'
-// import four from './img/sneakers/4.jpg'
+import Card from './components/Card/Card'
+import Header from './components/Header/Header'
+import Cart from './components/Cart/Cart'
+
+
+const arr = [
+  {name: 'Мужские Кроссовки Nike Blazer Mid Suede', price: '12 999', imageUrl: '/image/sneakers/1.jpg',},
+  {name: 'Мужские Кроссовки Nike Air Max 270', price: '12 999', imageUrl: '/image/sneakers/2.jpg',},
+  {name: 'Мужские Кроссовки Nike Blazer Mid Suede', price: '8 499', imageUrl: '/image/sneakers/3.jpg',},
+  {name: 'Кроссовки Puma X Aka Boku Future Rider', price: '8 999', imageUrl: '/image/sneakers/4.jpg',},
+]
+
 
 
 function App() {
@@ -25,10 +30,11 @@ function App() {
             </div>
           </div>
           <div className='main__cards'>
-            <Card />
-            <Card />
-            <Card />
-            <Card />
+            {arr.map((obj) => (
+              <Card title={obj.name}
+              price={obj.price}
+              imageUrl={obj.imageUrl} />
+            ))}
           </div>
         </div>
       </main>
