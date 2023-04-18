@@ -3,28 +3,23 @@ import './Cart.scss'
 import Remove from '../../img/remove.svg'
 import Arrow from '../../img/arrow.svg'
 
-export const Cart = () => {
+
+export const Cart = ({ onClose, removeCard, items = [] }) => {
     return (
         <div className="overlay">
             <div className="cart">
-                <h2 className="cart__title">Корзина<img src={Remove} alt="remove-btn" /></h2>
+                <h2 className="cart__title">Корзина<img onClick={onClose} src={Remove} alt="remove-btn" /></h2>
                 <div className="cart__items">
-                    <div className="cart__item">
-                        <img className='cart__item-img' width={70} height={70} src="./image/sneakers/1.jpg" alt="Sneakers" />
-                        <div className="cart__item-text">
-                            <span>Мужские Кроссовки Nike Air Max 270</span>
-                            <b>12 999 руб.</b>
+                    {items.map((obj) => (
+                        <div className="cart__item">
+                            <img className='cart__item-img' width={70} height={70} src={obj.imageUrl} alt="Sneakers" />
+                            <div className="cart__item-text">
+                                <span>{obj.name}</span>
+                                <b>{obj.price} руб.</b>
+                            </div>
+                            <img className='cart__item-btn' onClick={() => removeCard(obj.id)} src={Remove} alt="remove-btn" />
                         </div>
-                        <img className='cart__item-btn' src={Remove} alt="remove-btn" />
-                    </div>
-                    <div className="cart__item">
-                        <img className='cart__item-img' width={70} height={70} src="./image/sneakers/2.jpg" alt="Sneakers" />
-                        <div className="cart__item-text">
-                            <span>Мужские Кроссовки Nike Air Max 270</span>
-                            <b>8 499 руб.</b>
-                        </div>
-                        <img className='cart__item-btn' src={Remove} alt="remove-btn" />
-                    </div>
+                    ))}
                 </div>
 
                 <div className="cart__price">
