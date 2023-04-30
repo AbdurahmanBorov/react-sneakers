@@ -23,6 +23,7 @@ function App() {
   }
 
   const removeCard = (a) => {
+    axios.delete(`https://643d5217f0ec48ce905912cd.mockapi.io/cart/${a}`)
     setCartItems(cartItems.filter((obj) => obj.id !== a))
   }
 
@@ -43,7 +44,7 @@ function App() {
       <Header onClickOpened={() => {
         setCartOpened(true)
         classToggle()
-      }}/>
+      }} />
       <main className="main">
         <div className="main__content">
           <div className='main__top'>
