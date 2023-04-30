@@ -33,33 +33,48 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 40px;
   }
 
   &__title {
+    max-width: 300px;
     font-weight: 700;
     font-size: 32px;
     line-height: 39px;
-    margin-bottom: 40px;
   }
 
   &__cards {
     display: flex;
     flex-wrap: wrap;
-    row-gap: 20px;
+    gap: 25px;
     align-items: center;
-    justify-content: space-between;
   }
 
   &__search {
+    z-index: 0;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.04);
     border-radius: 20px;
-    padding: 0 15px;
+    padding: 0 20px;
+    position: relative;
+
+    svg {
+      position: absolute;
+      left: 10px;
+      top: 17px;
+    }
+
+    &-remove {
+      cursor: pointer;
+      position: absolute;
+      right: 10px;
+      top: 15px;
+    }
 
     input {
       font-family: 'Inter', sans-serif;
       border: 0;
       outline: 0;
-      padding: 13px;
+      padding: 15px;
       font-size: 16px;
       width: 200px;
     }

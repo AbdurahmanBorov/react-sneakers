@@ -18,7 +18,7 @@ export const Header = (props) => {
             </div>
             <ul className="header__menu">
                 <li onClick={props.onClickOpened} className='header__menu-item'>
-                    <img className='header__menu-cart' src={Cart} alt="cart" />
+                    <img className='header__menu-cart'  src={Cart} alt="cart" />
                     <span>1205 руб.</span>
                 </li>
                 <li>
