@@ -1,25 +1,61 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import { Routes, Route } from 'react-router-dom'
 import axios from 'axios'
-import Card from './components/Card/Card'
 import Header from './components/Header/Header'
+import Home from './Pages/Home'
+import Favorite from './Pages/Favorite'
 import Cart from './components/Cart/Cart'
-import Remove from './img/remove.svg'
 
 
 function App() {
   const [items, setItems] = React.useState([]);
   const [cartItems, setCartItems] = React.useState([]);
+  const [favorites, setFavorites] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
   const [cartOpened, setCartOpened] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    axios.get('https://643d5217f0ec48ce905912cd.mockapi.io/items').then(res => setItems(res.data))
-    axios.get('https://643d5217f0ec48ce905912cd.mockapi.io/cart').then(res => setCartItems(res.data))
+    async function fetchData() {
+      setIsLoading(true)
+      const cartResponse = await axios.get('https://643d5217f0ec48ce905912cd.mockapi.io/cart');
+      const favoritesResponse = await axios.get('https://644ec7154e86e9a4d80127b7.mockapi.io/favorites');
+      const itemsResponse = await axios.get('https://643d5217f0ec48ce905912cd.mockapi.io/items');
+      setIsLoading(false)
+  
+      setCartItems(cartResponse.data)
+      setFavorites(favoritesResponse.data)
+      setItems(itemsResponse.data)
+    }
+    
+    fetchData()
   }, [])
 
   const onAddToCart = (obj) => {
-    axios.post('https://643d5217f0ec48ce905912cd.mockapi.io/cart', obj)
-    setCartItems(prev => [...prev, obj])
+    try {
+      if (cartItems.find((favObj) => Number(favObj.id) === Number(obj.id))) {
+        setCartItems(prev => prev.filter((cartObj) => Number(cartObj.id) !== Number(obj.id)))
+        axios.delete(`https://643d5217f0ec48ce905912cd.mockapi.io/cart/${obj.id}`)
+      } else {
+        axios.post('https://643d5217f0ec48ce905912cd.mockapi.io/cart', obj)
+        setCartItems(prev => [...prev, obj])
+      }
+    } catch (error) {
+      alert('Mistake')
+    }
+  }
+
+  const onAddToFavorite = async (obj) => {
+    try {
+      if (favorites.find((favObj) => favObj.id === obj.id)) {
+        axios.delete(`https://644ec7154e86e9a4d80127b7.mockapi.io/favorites/${obj.id}`)
+      } else {
+        const { data } = await axios.post('https://644ec7154e86e9a4d80127b7.mockapi.io/favorites', obj)
+        setFavorites(prev => [...prev, data])
+      }
+    } catch (error) {
+      alert('Не удалось добавить в избранное')
+    }
   }
 
   const removeCard = (a) => {
@@ -45,40 +81,28 @@ function App() {
         setCartOpened(true)
         classToggle()
       }} />
-      <main className="main">
-        <div className="main__content">
-          <div className='main__top'>
-            <h1 className='main__title'>Все кроссовки</h1>
-            <div className="main__search">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M15.25 15.25L11.8855 11.8795L15.25 15.25ZM13.75 7.375C13.75 9.06576 13.0784 10.6873 11.8828 11.8828C10.6873 13.0784 9.06576 13.75 7.375 13.75C5.68424 13.75 4.06274 13.0784 2.86719 11.8828C1.67165 10.6873 1 9.06576 1 7.375C1 5.68424 1.67165 4.06274 2.86719 2.86719C4.06274 1.67165 5.68424 1 7.375 1C9.06576 1 10.6873 1.67165 11.8828 2.86719C13.0784 4.06274 13.75 5.68424 13.75 7.375V7.375Z" stroke="#E4E4E4" />
-              </svg>
-              {searchValue ? <img width={18} height={18} className='main__search-remove' src={Remove}
-                onClick={() => setSearchValue('')}
-                alt="" /> : null}
-              <input
-                onChange={onChangeInputValue}
-                value={searchValue}
-                placeholder='Поиск...' />
-            </div>
-          </div>
-          <div className='main__cards'>
-            {items
-              .filter((obj) => obj.name.toLowerCase().includes(searchValue.toLowerCase()))
-              .map((obj, index) => (
-                <Card
-                  key={index}
-                  id={obj.id}
-                  name={obj.name}
-                  price={obj.price}
-                  imageUrl={obj.imageUrl}
-                  onPlus={(obj) => onAddToCart(obj)}
-                  onFavorite={() => console.log('da')} />
-              ))}
-          </div>
-        </div>
-      </main>
+      <Routes>
+        <Route path='/' element={
+          <Home
+            items={items}
+            cartItems={cartItems}
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+            onChangeInputValue={onChangeInputValue}
+            onAddToCart={onAddToCart}
+            onAddToFavorite={onAddToFavorite}
+            isLoading={isLoading}
+          />
+        }>
+        </Route>
+        <Route path='/favorites' element={<Favorite
+          items={favorites}
+          onAddToFavorite={onAddToFavorite}
+        />}>
+        </Route>
+      </Routes>
     </div>
+
   );
 }
 
